@@ -15,7 +15,7 @@ function App() {
   const [titulo, setTitulo] = useState('');
   const [descricao, setDescricao] = useState('');
 
-  // Atualizámos a URL base (sem o /tarefas, pois usamos outras rotas agora)
+  // URL base do seu backend no Render
   const API_URL = 'https://site-tarefas-hysc.onrender.com';
 
   // --- FUNÇÕES DE AUTENTICAÇÃO ---
@@ -55,14 +55,14 @@ function App() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); // Deita fora o crachá
+    localStorage.removeItem('token'); // Deleta o token do navegador
     setToken(null);
     setTarefas([]); // Limpa as tarefas do ecrã por segurança
   };
 
-  // --- FUNÇÕES DE TAREFAS (AGORA COM SEGURANÇA) ---
+  // --- FUNÇÕES DE TAREFAS (COM SEGURANÇA) ---
   
-  // Função ajudante para colocar o Token JWT em todos os pedidos
+  // Função auxiliar para injetar o Token JWT em todas as requisições de tarefas
   const getHeaders = () => ({
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${token}` 
@@ -73,7 +73,7 @@ function App() {
     try {
       const resposta = await fetch(`${API_URL}/tarefas`, { headers: getHeaders() });
       if (resposta.status === 401 || resposta.status === 403) {
-        handleLogout(); // Se o token estiver expirado, expulsa o utilizador
+        handleLogout(); // Se o token estiver expirado ou inválido, desloga o usuário
         return;
       }
       const data = await resposta.json();
@@ -85,19 +85,19 @@ function App() {
 
   useEffect(() => {
     carregarTarefas();
-  }, [token]); // Executa sempre que o token mudar (quando fizer login)
+  }, [token]); // Executa sempre que o token mudar (quando o usuário fizer login)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await fetch(`${API_URL}/tarefas`, {
         method: 'POST',
-        headers: getHeaders(), // 🔒 Envia o token aqui!
+        headers: getHeaders(), // 🔒 Envia o token aqui
         body: JSON.stringify({ titulo, descricao })
       });
       setTitulo('');
       setDescricao('');
-      carregarTarefas();
+      carregarTarefas(); // Recarrega a lista atualizada
     } catch (erro) {
       console.error('Erro ao criar tarefa:', erro);
     }
@@ -107,10 +107,10 @@ function App() {
     try {
       await fetch(`${API_URL}/tarefas/${tarefa.id}`, {
         method: 'PATCH',
-        headers: getHeaders(), // 🔒 Envia o token aqui!
-        body: JSON.stringify({ concluida: !tarefa.concluida })
+        headers: getHeaders(), // 🔒 Envia o token aqui
+        body: JSON.stringify({ concluida: !tarefa.concluida }) // Inverte o status atual
       });
-      carregarTarefas();
+      carregarTarefas(); // Recarrega a lista atualizada
     } catch (erro) {
       console.error('Erro ao atualizar tarefa:', erro);
     }
@@ -120,9 +120,9 @@ function App() {
     try {
       await fetch(`${API_URL}/tarefas/${id}`, {
         method: 'DELETE',
-        headers: getHeaders() // 🔒 Envia o token aqui!
+        headers: getHeaders() // 🔒 Envia o token aqui
       });
-      carregarTarefas();
+      carregarTarefas(); // Recarrega a lista atualizada
     } catch (erro) {
       console.error('Erro ao deletar tarefa:', erro);
     }
@@ -206,7 +206,8 @@ function App() {
         {tarefas.map(tarefa => (
           <li key={tarefa.id} className={`tarefa-item ${tarefa.concluida ? 'concluida' : ''}`}>
             
-            <div className="icone-status" onClick={() => alternarConclusao(tarefa)}>
+            {/* Clicar no coraçãozinho vai disparar o PATCH para concluir/desconcluir */}
+            <div className="icone-status" onClick={() => alternarConclusao(tarefa)} style={{ cursor: 'pointer' }}>
               {tarefa.concluida ? '💖' : '🤍'}
             </div>
 
@@ -215,6 +216,7 @@ function App() {
               <p>{tarefa.descricao}</p>
             </div>
 
+            {/* Clicar no X vai disparar o DELETE */}
             <button 
               className="btn-excluir" 
               onClick={() => deletarTarefa(tarefa.id)}
