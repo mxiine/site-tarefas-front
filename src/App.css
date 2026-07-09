@@ -1,0 +1,249 @@
+/* App.css */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  outline: none;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  /* Fundo rosa bem claro com textura de bolinhas sutis */
+  background-color: #ffe6f0;
+  background-image: radial-gradient(#ffb3c6 2px, transparent 2px);
+  background-size: 30px 30px;
+  font-family: 'Quicksand', sans-serif;
+  color: #5c3a45;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  background: #ffffff;
+  width: 90%;
+  max-width: 450px;
+  padding: 35px;
+  border-radius: 30px;
+  box-shadow: 0 15px 30px rgba(255, 179, 198, 0.4);
+  border: 3px dashed #ffb3c6; /* Borda fofa tracejada */
+  position: relative;
+  margin: 40px 0;
+}
+
+h1 {
+  text-align: center;
+  color: #ff7597;
+  font-size: 28px;
+  margin-bottom: 25px;
+}
+
+/* 🌟 Animações de estrelas e corações flutuando no topo 🌟 */
+.decoracao {
+  position: absolute;
+  font-size: 30px;
+  animation: flutuar 2s ease-in-out infinite alternate;
+}
+.d1 { top: -20px; left: -10px; }
+.d2 { top: -20px; right: -10px; animation-delay: 1s; }
+
+@keyframes flutuar {
+  from { transform: translateY(0) rotate(-10deg); }
+  to { transform: translateY(-15px) rotate(15deg); }
+}
+
+/* Formulário */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+input {
+  padding: 16px;
+  border: 2px solid #ffccd5;
+  border-radius: 20px;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 16px;
+  outline: none;
+  background: #fffafa;
+  transition: all 0.3s;
+}
+
+input:focus {
+  border-color: #ff7597;
+  background: #fff;
+  box-shadow: 0 0 15px rgba(255, 117, 151, 0.3);
+}
+
+button.btn-adicionar {
+  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+  color: #d13a69;
+  font-weight: 700;
+  border: none;
+  padding: 16px;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button.btn-adicionar:hover {
+  transform: scale(1.05); /* Botão cresce ao passar o mouse */
+  box-shadow: 0 8px 15px rgba(255, 154, 158, 0.5);
+}
+
+/* Lista de Tarefas */
+ul {
+  padding: 0;
+  list-style: none;
+  margin: 0;
+}
+
+.tarefa-item {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 2px solid #ffccd5;
+  padding: 15px;
+  border-radius: 20px;
+  margin-bottom: 15px;
+  /* Transição elástica super fluida */
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); 
+}
+
+.tarefa-item:hover {
+  transform: translateY(-5px) scale(1.02); /* Pula para cima e cresce um pouquinho */
+  box-shadow: 0 10px 20px rgba(255, 179, 198, 0.4);
+  border-color: #ff7597;
+}
+
+.icone-status {
+  font-size: 26px;
+  cursor: pointer;
+  margin-right: 12px;
+  transition: transform 0.3s;
+}
+
+.icone-status:hover {
+  transform: scale(1.3) rotate(15deg); /* Ícone dança ao passar o mouse */
+}
+
+.tarefa-info {
+  flex: 1;
+}
+
+.tarefa-info strong {
+  display: block;
+  font-size: 18px;
+  color: #ff7597;
+  transition: color 0.3s;
+}
+
+.tarefa-info p {
+  margin: 5px 0 0;
+  font-size: 14px;
+  color: #997a82;
+}
+
+/* Efeito quando a tarefa é concluída */
+.tarefa-item.concluida {
+  background: #fdf5f7;
+  border-color: #fce4ec;
+  opacity: 0.7;
+  transform: scale(0.98);
+}
+
+.tarefa-item.concluida .tarefa-info strong {
+  text-decoration: line-through;
+  color: #f48fb1;
+}
+
+/* Botão de excluir fofinho */
+button.btn-excluir {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+button.btn-excluir:hover {
+  background: #ffe3e3;
+  transform: scale(1.1);
+}
+/* ========================================== */
+/* NOVOS ESTILOS: LOGIN E CABEÇALHO           */
+/* ========================================== */
+
+.erro-msg {
+  color: #d13a69;
+  background-color: #ffccd5;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.auth-toggle {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+  color: #997a82;
+}
+
+.btn-auth-toggle {
+  background: none;
+  border: none;
+  color: #ff7597;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.btn-auth-toggle:hover {
+  color: #d13a69;
+}
+
+.header-tarefas {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.header-tarefas h1 {
+  margin-bottom: 0; /* Ajuste para alinhar com o botão Sair */
+}
+
+.btn-sair {
+  background: #ffe3e3;
+  border: 2px solid #ffccd5;
+  color: #d13a69;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  padding: 8px 15px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-sair:hover {
+  background: #ffccd5;
+  transform: scale(1.05);
+}
